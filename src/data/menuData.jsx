@@ -127,55 +127,55 @@ const menuData = [
   },
   {
     "id": 8,
-    "name": "Kadhai Paneer 8",
+    "name": "Garlic Bread",
     "type": "VEG",
-    "mealType": "MAIN COURSE",
+    "mealType": "Sides",
     "dishType": "CURRY",
     "forParty": true,
     "forChefit": true,
     "price": 330,
-    "description": "Paneer cubes in spicy onion gravy with onions and capsicum cubes.",
-    "image": "https://storage.googleapis.com/chefkartimages/customer_app_assets/star_chef/north_indian.png",
+    "description": "Buttered and toasted bread with garlic flavor.",
+    "image": require('../images/garlic-bread.jpg'),
     "category": {
       "id": 1,
       "name": "North Indian",
-      "image": "https://storage.googleapis.com/chefkartimages/customer_app_assets/star_chef/north_indian.png",
+      "image": require('../images/garlic-bread.jpg'),
       "isRecommendedForMealSuggestion": true
     }
   },
   {
     "id": 9,
-    "name": "Kadhai Paneer 9",
-    "type": "VEG",
-    "mealType": "MAIN COURSE",
+    "name": "Chicken Noodles",
+    "type": "NON-VEG",
+    "mealType": "Starter",
     "dishType": "CURRY",
     "forParty": true,
     "forChefit": true,
     "price": 340,
-    "description": "Paneer cubes in spicy onion gravy with onions and capsicum cubes.",
-    "image": "https://storage.googleapis.com/chefkartimages/customer_app_assets/star_chef/north_indian.png",
+    "description": "Noodles stir-fried with chicken and vegetables in a savory sauce.",
+    "image": require('../images/chicken-noodles.jpg'),
     "category": {
       "id": 1,
       "name": "North Indian",
-      "image": "https://storage.googleapis.com/chefkartimages/customer_app_assets/star_chef/north_indian.png",
+      "image": require('../images/chicken-noodles.jpg'),
       "isRecommendedForMealSuggestion": true
     }
   },
   {
     "id": 10,
-    "name": "Kadhai Paneer 10",
+    "name": "Rasmalai",
     "type": "VEG",
-    "mealType": "MAIN COURSE",
+    "mealType": "DESSERT",
     "dishType": "CURRY",
     "forParty": true,
     "forChefit": true,
     "price": 350,
-    "description": "Paneer cubes in spicy onion gravy with onions and capsicum cubes.",
-    "image": "https://storage.googleapis.com/chefkartimages/customer_app_assets/star_chef/north_indian.png",
+    "description": "Milk based sweet dish made with paneer and flavored with cardamom and saffron.",
+    "image": require('../images/rasmalai.jpg'),
     "category": {
       "id": 1,
       "name": "North Indian",
-      "image": "https://storage.googleapis.com/chefkartimages/customer_app_assets/star_chef/north_indian.png",
+      "image": require('../images/rasmalai.jpg'),
       "isRecommendedForMealSuggestion": true
     }
   }
