@@ -13,7 +13,7 @@ import menuData from '../data/menuData.jsx';
 
 const categories = ['Starter', 'Main Course', 'Dessert', 'Sides'];
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [activeCategory, setActiveCategory] = useState('Main Course');
   const [expandedCuisine, setExpandedCuisine] = useState(null);
@@ -47,11 +47,10 @@ const HomeScreen = () => {
 
     return (
       <View key={item.id} style={styles.card}>
-       <Image
-        source={typeof item.image === 'string' ? { uri: item.image } : item.image}
-        style={styles.image}
-      />
-
+        <Image
+          source={typeof item.image === 'string' ? { uri: item.image } : item.image}
+          style={styles.image}
+        />
         <Text style={styles.name}>{item.name}</Text>
         <Text>{item.type?.toUpperCase() === 'VEG' ? '🟢 Veg' : '🔴 Non-Veg'}</Text>
         <Text>₹{item.price ?? 'N/A'}</Text>
@@ -69,84 +68,99 @@ const HomeScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      {/* 🔍 Search Bar */}
-      <TextInput
-        placeholder="Search dishes..."
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        style={styles.searchBar}
-      />
+    <View style={{ flex: 1 }}>
+      <ScrollView style={styles.container}>
+        {/* 🔍 Search Bar */}
+        <TextInput
+          placeholder="Search dishes..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          style={styles.searchBar}
+        />
 
-      {/* 🟢🔴 Veg / Non-Veg Filter */}
-      <View style={styles.typeFilterContainer}>
-        <TouchableOpacity
-          style={[styles.typeButton, typeFilter === 'VEG' && styles.activeType]}
-          onPress={() => setTypeFilter(typeFilter === 'VEG' ? null : 'VEG')}
-        >
-          <Text style={styles.typeButtonText}>🟢 Veg</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.typeButton, typeFilter === 'NON-VEG' && styles.activeType]}
-          onPress={() => setTypeFilter(typeFilter === 'NON-VEG' ? null : 'NON-VEG')}
-        >
-          <Text style={styles.typeButtonText}>🔴 Non-Veg</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* 📌 Top Category Tabs */}
-      <View style={styles.categoryTabs}>
-        {categories.map(category => (
+        {/* Veg / Non-Veg Filter */}
+        <View style={styles.typeFilterContainer}>
           <TouchableOpacity
-            key={category}
-            onPress={() => setActiveCategory(category)}
-            style={[
-              styles.tab,
-              activeCategory === category && styles.activeTab
-            ]}
+            style={[styles.typeButton, typeFilter === 'VEG' && styles.activeType]}
+            onPress={() => setTypeFilter(typeFilter === 'VEG' ? null : 'VEG')}
           >
-            <Text
+            <Text style={styles.typeButtonText}>🟢 Veg</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.typeButton, typeFilter === 'NON-VEG' && styles.activeType]}
+            onPress={() => setTypeFilter(typeFilter === 'NON-VEG' ? null : 'NON-VEG')}
+          >
+            <Text style={styles.typeButtonText}>🔴 Non-Veg</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Top Category Tabs */}
+        <View style={styles.categoryTabs}>
+          {categories.map(category => (
+            <TouchableOpacity
+              key={category}
+              onPress={() => setActiveCategory(category)}
               style={[
-                styles.tabText,
-                activeCategory === category && styles.activeTabText
+                styles.tab,
+                activeCategory === category && styles.activeTab
               ]}
             >
-              {category}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* 🍱 Cuisine Sections */}
-      {cuisines.map(cuisine => {
-        const cuisineDishes = filteredMenu.filter(
-          item => item.category?.name === cuisine
-        );
-
-        return (
-          <View key={cuisine} style={styles.cuisineSection}>
-            <TouchableOpacity
-              onPress={() => handleCuisineToggle(cuisine)}
-              style={styles.cuisineHeader}
-            >
-              <Text style={styles.cuisineTitle}>{cuisine}</Text>
-              <Text style={styles.arrow}>
-                {expandedCuisine === cuisine ? '▲' : '▼'}
+              <Text
+                style={[
+                  styles.tabText,
+                  activeCategory === category && styles.activeTabText
+                ]}
+              >
+                {category}
               </Text>
             </TouchableOpacity>
+          ))}
+        </View>
 
-            {expandedCuisine === cuisine && (
-              <FlatList
-                data={cuisineDishes}
-                keyExtractor={item => item.id.toString()}
-                renderItem={({ item }) => renderDishCard(item)}
-                scrollEnabled={false}
-              />
-            )}
-          </View>
-        );
-      })}
-    </ScrollView>
+        {/* Cuisine Sections */}
+        {cuisines.map(cuisine => {
+          const cuisineDishes = filteredMenu.filter(
+            item => item.category?.name === cuisine
+          );
+
+          return (
+            <View key={cuisine} style={styles.cuisineSection}>
+              <TouchableOpacity
+                onPress={() => handleCuisineToggle(cuisine)}
+                style={styles.cuisineHeader}
+              >
+                <Text style={styles.cuisineTitle}>{cuisine}</Text>
+                <Text style={styles.arrow}>
+                  {expandedCuisine === cuisine ? '▲' : '▼'}
+                </Text>
+              </TouchableOpacity>
+
+              {expandedCuisine === cuisine && (
+                <FlatList
+                  data={cuisineDishes}
+                  keyExtractor={item => item.id.toString()}
+                  renderItem={({ item }) => renderDishCard(item)}
+                  scrollEnabled={false}
+                />
+              )}
+            </View>
+          );
+        })}
+      </ScrollView>
+
+      {/* Bottom Bar */}
+      <View style={styles.bottomBar}>
+        <Text style={styles.totalText}>
+          Total Selected: {selectedItems.length}
+        </Text>
+        <TouchableOpacity
+          style={styles.continueButton}
+          onPress={() => navigation.navigate('Summary', { selectedItems })}
+        >
+          <Text style={styles.continueText}>Continue</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
@@ -257,6 +271,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#dc3545',
   },
   buttonText: {
+    color: '#fff',
+    fontWeight: '600',
+  },
+  bottomBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 12,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+  },
+  totalText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  continueButton: {
+    backgroundColor: '#42a5f5',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  continueText: {
     color: '#fff',
     fontWeight: '600',
   },
